@@ -34,6 +34,9 @@ inputs:
     description: 'The body of the pull request'
     required: false
     default: " "
+  label:
+    description: 'The label of the pull request'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -48,6 +51,7 @@ runs:
     - ${{ inputs.pull-request-reviewers }}
     - ${{ inputs.title }}
     - ${{ inputs.body }}
+    - ${{ inputs.label }}
 branding:
   icon: 'git-commit'
   color: 'green'

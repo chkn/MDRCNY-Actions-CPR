@@ -50,6 +50,7 @@ then
                -b "$INPUT_BODY" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
+               -l $INPUT_LABEL \
                   $PULL_REQUEST_REVIEWERS
 else
   echo "No changes detected"
