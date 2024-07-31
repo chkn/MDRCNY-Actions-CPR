@@ -45,12 +45,25 @@ then
   echo "Pushing git commit"
   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
+  echo -n "pr_url=" >> $GITHUB_OUTPUT
+
+  set +e
   gh pr create -t "$INPUT_TITLE" \
                -b "$INPUT_BODY" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
                -l $INPUT_LABEL \
-                  $PULL_REQUEST_REVIEWERS
+                  $PULL_REQUEST_REVIEWERS >> $GITHUB_OUTPUT
+
+  if [ $? -ne 0 ]
+  then
+    echo "created=false" >> $GITHUB_OUTPUT
+    echo "Failed to create pull request"
+    return -1
+  else
+    echo "created=true" >> $GITHUB_OUTPUT
+    echo "Pull request created"
+  fi
 else
   echo "No changes detected"
 fi

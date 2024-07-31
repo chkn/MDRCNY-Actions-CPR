@@ -37,6 +37,11 @@ inputs:
   label:
     description: 'The label of the pull request'
     required: true
+outputs:
+  pr_url:
+    description: 'The URL of the pull request'
+  created:
+    description: 'Whether the pull request was created'
 runs:
   using: 'docker'
   image: 'Dockerfile'
