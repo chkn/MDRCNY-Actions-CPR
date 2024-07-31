@@ -3,9 +3,9 @@
 set -e
 set -x
 
-if [ -z "$INPUT_SOURCE_FOLDER" ]
+if [ -z "$INPUT_SOURCE_PATH" ]
 then
-  echo "Source folder must be defined"
+  echo "Source path must be defined"
   return -1
 fi
 
@@ -33,8 +33,7 @@ echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
-cp -r $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+cp -r $INPUT_SOURCE_PATH "$CLONE_DIR/$INPUT_DESTINATION_PATH"
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 

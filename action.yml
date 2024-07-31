@@ -1,14 +1,14 @@
 name: 'MDRCNY-Create Pull Request for Another Repository'
-description: 'Used for pull request a copy of a folder to another repository'
+description: 'Used for pull request a copy of files or folder to another repository'
 inputs:
-  source_folder:
-    description: 'Source folder from origin'
+  source_path:
+    description: 'Source path from origin'
     required: true
   destination_repo:
     description: 'Destination repository'
     required: true
-  destination_folder:
-    description: 'Destination folder to push the origin folder'
+  destination_path:
+    description: 'Destination path in the destination repository'
     required: false
   user_email:
     description: 'Email for the git commit'
@@ -41,9 +41,9 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.source-folder }}
+    - ${{ inputs.source-path }}
     - ${{ inputs.destination-repo }}
-    - ${{ inputs.destination-folder }}
+    - ${{ inputs.destination-path }}
     - ${{ inputs.user-email }}
     - ${{ inputs.user-name }}
     - ${{ inputs.destination-head-branch }}
