@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -x
@@ -43,7 +43,7 @@ set -e
 echo "Copying contents to git repo"
 cp -r $INPUT_SOURCE_PATH "$CLONE_DIR/$INPUT_DESTINATION_PATH"
 cd "$CLONE_DIR"
-if [ ! $BRANCH_ALREADY_EXISTS ]
+if [ $BRANCH_ALREADY_EXISTS -ne 0 ]
 then
   git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 fi
