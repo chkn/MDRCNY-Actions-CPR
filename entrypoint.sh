@@ -32,10 +32,21 @@ git config --global user.name "$INPUT_USER_NAME"
 echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
+echo "Checking if branch already exists"
+set +e
+pushd "$CLONE_DIR"
+git checkout "$INPUT_DESTINATION_HEAD_BRANCH"
+BRANCH_ALREADY_EXISTS=$?
+popd
+set -e
+
 echo "Copying contents to git repo"
 cp -r $INPUT_SOURCE_PATH "$CLONE_DIR/$INPUT_DESTINATION_PATH"
 cd "$CLONE_DIR"
-git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
+if [ ! $BRANCH_ALREADY_EXISTS ]
+then
+  git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
+fi
 
 echo "Adding git commit"
 git add .
@@ -58,7 +69,9 @@ then
   if [ $? -ne 0 ]
   then
     echo "created=false" >> $GITHUB_OUTPUT
-    echo "Failed to create pull request (might already exist)"
+    echo "Failed to create pull request"
+    # if the branch already existed then it's ok that we couldn't create the PR because it was probably already created
+    return $BRANCH_ALREADY_EXISTS
   else
     echo "created=true" >> $GITHUB_OUTPUT
     echo "Pull request created"
