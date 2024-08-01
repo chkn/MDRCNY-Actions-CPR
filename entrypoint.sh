@@ -58,8 +58,7 @@ then
   if [ $? -ne 0 ]
   then
     echo "created=false" >> $GITHUB_OUTPUT
-    echo "Failed to create pull request"
-    return -1
+    echo "Failed to create pull request (might already exist)"
   else
     echo "created=true" >> $GITHUB_OUTPUT
     echo "Pull request created"
