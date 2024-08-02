@@ -6,13 +6,13 @@ set -x
 if [ -z "$INPUT_SOURCE_PATH" ]
 then
   echo "Source path must be defined"
-  return -1
+  exit -1
 fi
 
 if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master"]
 then
   echo "Destination head branch cannot be 'main' nor 'master'"
-  return -1
+  exit -1
 fi
 
 if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]
@@ -71,7 +71,7 @@ then
     echo "created=false" >> $GITHUB_OUTPUT
     echo "Failed to create pull request"
     # if the branch already existed then it's ok that we couldn't create the PR because it was probably already created
-    return $BRANCH_ALREADY_EXISTS
+    exit $BRANCH_ALREADY_EXISTS
   else
     echo "created=true" >> $GITHUB_OUTPUT
     echo "Pull request created"
